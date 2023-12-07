@@ -22,4 +22,8 @@ public record CarDTO(Long carId,
         );
     }
 
+    public Car toModel(){
+        return new Car(this.carId, this.brand, this.model, this.color, this.registrationNumber, this.modelYear, this.price, null);
+    }
+
 }

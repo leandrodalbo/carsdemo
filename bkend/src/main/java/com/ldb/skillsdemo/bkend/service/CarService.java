@@ -30,8 +30,13 @@ public class CarService {
                 .collect(Collectors.toSet());
     }
 
-    public void deleteById(Long carId)
-    {
+    public void deleteById(Long carId) {
         carRepository.deleteById(carId);
+    }
+
+    public CarDTO saveNewCar(CarDTO dto) {
+        var saved = carRepository.save(dto.toModel());
+
+        return CarDTO.fromModel(saved);
     }
 }

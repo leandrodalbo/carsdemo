@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,5 +62,19 @@ public class CarControllerTest {
                 .andExpect(status().is2xxSuccessful());
 
         verify(carService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void willDelegateAddToTheService() throws Exception {
+        var dto = new CarDTO(-1L, "x", "y", "z", "abc", 1990, 2000.1);
+        when(carService.saveNewCar(any())).thenReturn(dto);
+
+        this.mvc.perform(post("/cars")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+                        .characterEncoding("utf-8"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(carService, times(1)).saveNewCar(any());
     }
 }

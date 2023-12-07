@@ -28,4 +28,10 @@ public class CarController {
     public void deleteCarById(@PathVariable Long carId) {
         carService.deleteById(carId);
     }
+
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void addNewCar(@RequestBody CarDTO car) {
+        carService.saveNewCar(car);
+    }
 }

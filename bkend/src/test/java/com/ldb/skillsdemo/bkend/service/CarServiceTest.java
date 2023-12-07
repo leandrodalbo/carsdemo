@@ -1,6 +1,7 @@
 package com.ldb.skillsdemo.bkend.service;
 
 import com.ldb.skillsdemo.bkend.domain.Car;
+import com.ldb.skillsdemo.bkend.exchange.CarDTO;
 import com.ldb.skillsdemo.bkend.repositories.CarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,5 +45,16 @@ public class CarServiceTest {
         service.deleteById(1L);
 
         verify(carRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void willSaveANewCar() {
+        var dto = new CarDTO(-1L, "x", "y", "z", "abc", 1990, 2000.1);
+        when(carRepository.save(any())).thenReturn(dto.toModel());
+
+        var result = service.saveNewCar(dto);
+
+        assertThat(result).isEqualTo(dto);
+        verify(carRepository, times(1)).save(any());
     }
 }

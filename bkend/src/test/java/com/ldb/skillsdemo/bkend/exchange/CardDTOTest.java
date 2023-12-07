@@ -22,4 +22,20 @@ public class CardDTOTest {
         assertThat(dto.color()).isEqualTo(car.getColor());
         assertThat(dto.registrationNumber()).isEqualTo(car.getRegistrationNumber());
     }
+
+    @Test
+    public void shouldCreateACarADTOInstance() {
+        var dto = new CarDTO(-1L, "x", "y", "z", "abc", 1990, 2000.1);
+
+
+        var car = dto.toModel();
+
+        assertThat(car.getCarId()).isEqualTo(dto.carId());
+        assertThat(car.getModel()).isEqualTo(dto.model());
+        assertThat(car.getBrand()).isEqualTo(dto.brand());
+        assertThat(car.getPrice()).isEqualTo(dto.price());
+        assertThat(car.getModelYear()).isEqualTo(dto.modelYear());
+        assertThat(car.getColor()).isEqualTo(dto.color());
+        assertThat(car.getRegistrationNumber()).isEqualTo(dto.registrationNumber());
+    }
 }
