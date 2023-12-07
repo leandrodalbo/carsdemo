@@ -7,6 +7,12 @@ export class CarService {
 
     return response.data;
   }
+
+  async delete(carId: number) {
+    const response = await axios.delete(`${apiurl}/cars/${carId}`);
+
+    return response.status;
+  }
 }
 
 const carService = new CarService();

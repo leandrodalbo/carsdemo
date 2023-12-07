@@ -2,10 +2,8 @@ package com.ldb.skillsdemo.bkend.controllers;
 
 import com.ldb.skillsdemo.bkend.exchange.CarDTO;
 import com.ldb.skillsdemo.bkend.service.CarService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -23,5 +21,11 @@ public class CarController {
     @GetMapping("/all")
     public Set<CarDTO> all() {
         return carService.allCars();
+    }
+
+    @DeleteMapping("/{carId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteCarById(@PathVariable Long carId) {
+        carService.deleteById(carId);
     }
 }

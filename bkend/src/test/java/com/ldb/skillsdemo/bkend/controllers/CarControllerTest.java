@@ -12,7 +12,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,5 +50,17 @@ public class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .json(objectMapper.writeValueAsString(cars)));
+
+        verify(carService, times(1)).allCars();
+    }
+
+    @Test
+    public void willDelegateDeleteToTheService() throws Exception {
+        doNothing().when(carService).deleteById(anyLong());
+
+        this.mvc.perform(delete("/cars/1"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(carService, times(1)).deleteById(anyLong());
     }
 }

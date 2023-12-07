@@ -29,4 +29,9 @@ public class CarService {
                 .map(CarDTO::fromModel)
                 .collect(Collectors.toSet());
     }
+
+    public void deleteById(Long carId)
+    {
+        carRepository.deleteById(carId);
+    }
 }

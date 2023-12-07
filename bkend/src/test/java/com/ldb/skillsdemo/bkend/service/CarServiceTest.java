@@ -35,4 +35,14 @@ public class CarServiceTest {
         assertThat(result).isNotEmpty();
         verify(carRepository, times(1)).findAll();
     }
+
+
+    @Test
+    public void shouldDeleteACarUsingTheRepository() {
+        doNothing().when(carRepository).deleteById(anyLong());
+
+        service.deleteById(1L);
+
+        verify(carRepository, times(1)).deleteById(anyLong());
+    }
 }
