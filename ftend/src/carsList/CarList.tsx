@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { CarType } from "../Api";
 import { CarService } from "../service/CarService";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface CarListProps {
   service: CarService;
 }
+
 const CarList = (props: CarListProps) => {
   const { service } = props;
 
@@ -13,25 +14,20 @@ const CarList = (props: CarListProps) => {
     queryFn: service.fetchAll,
   });
 
+  const columns: GridColDef[] = [
+    { field: "brand", headerName: "Brand", width: 200 },
+    { field: "model", headerName: "Model", width: 200 },
+    { field: "color", headerName: "Color", width: 200 },
+    { field: "registrationNumber", headerName: "Reg.nr.", width: 150 },
+    { field: "modelYear", headerName: "Model Year", width: 150 },
+    { field: "price", headerName: "Price", width: 150 },
+  ];
+
   if (!isSuccess) return <span>Loading...</span>;
   if (error) return <span>Fetching Cars Error...</span>;
   if (data)
     return (
-      <table>
-        <tbody>
-          {data.map((car: CarType) => (
-            <tr key={car.carId}>
-              <td>{car.carId}</td>
-              <td>{car.brand}</td>
-              <td>{car.model}</td>
-              <td>{car.color}</td>
-              <td>{car.registrationNumber}</td>
-              <td>{car.modelYear}</td>
-              <td>{car.price}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DataGrid rows={data} columns={columns} getRowId={(row) => row.carId} />
     );
 };
 export default CarList;
