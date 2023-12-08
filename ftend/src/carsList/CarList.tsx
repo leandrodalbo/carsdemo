@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CarService } from "../service/CarService";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import AddCar from "../addCar/AddCar";
 
 interface CarListProps {
   service: CarService;
@@ -44,7 +45,10 @@ const CarList = (props: CarListProps) => {
   if (error) return <span>Fetching Cars Error...</span>;
   if (data)
     return (
-      <DataGrid rows={data} columns={columns} getRowId={(row) => row.carId} />
+      <>
+        <AddCar service={service} queryClient={queryClient} />
+        <DataGrid rows={data} columns={columns} getRowId={(row) => row.carId} />
+      </>
     );
 };
 export default CarList;

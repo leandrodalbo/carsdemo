@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -33,16 +34,7 @@ public class CarControllerTest {
 
     @Test
     public void willFetchAllCars() throws Exception {
-        var cars = Set.of(new CarDTO(
-                1L,
-                "a",
-                "b",
-                "c",
-                "d",
-                1998,
-                23.333
-
-        ));
+        var cars = Set.of(new CarDTO(Optional.of(1L), Optional.of("x"), Optional.of("y"), Optional.of("z"), Optional.of("abc"), Optional.of(1990), Optional.of(2000.1)));
 
         when(carService.allCars()).thenReturn(cars);
 
@@ -66,7 +58,7 @@ public class CarControllerTest {
 
     @Test
     public void willDelegateAddToTheService() throws Exception {
-        var dto = new CarDTO(-1L, "x", "y", "z", "abc", 1990, 2000.1);
+        var dto = new CarDTO(Optional.empty(), Optional.of("x"), Optional.of("y"), Optional.of("z"), Optional.of("abc"), Optional.of(1990), Optional.of(2000.1));
         when(carService.saveNewCar(any())).thenReturn(dto);
 
         this.mvc.perform(post("/cars")
@@ -76,5 +68,38 @@ public class CarControllerTest {
                 .andExpect(status().is2xxSuccessful());
 
         verify(carService, times(1)).saveNewCar(any());
+    }
+
+
+    @Test
+    public void willNotDoAnUpdateWithoutTheId() throws Exception {
+        var updatingingDTO = new CarDTO(Optional.empty(), Optional.of("zzz"), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+
+        when(carService.updateACar(any())).thenCallRealMethod();
+
+        this.mvc.perform(put("/cars")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatingingDTO))
+                        .characterEncoding("utf-8"))
+                .andExpect(status().is4xxClientError());
+
+        verify(carService, times(1)).updateACar(any());
+    }
+
+    @Test
+    public void willDelegateAUpdateToTheService() throws Exception {
+        var updatingingDTO = new CarDTO(Optional.of(1L), Optional.of("zzz"), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        var updatedDTO = new CarDTO(Optional.of(1L), Optional.of("zzz"), Optional.of("y"), Optional.of("z"), Optional.of("abc"), Optional.of(1990), Optional.of(2000.1));
+
+        when(carService.updateACar(any())).thenReturn(updatedDTO);
+
+        this.mvc.perform(put("/cars")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatingingDTO))
+                        .characterEncoding("utf-8"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(result -> objectMapper.writeValueAsString(updatedDTO));
+
+        verify(carService, times(1)).updateACar(any());
     }
 }

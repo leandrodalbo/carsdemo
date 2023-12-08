@@ -28,4 +28,13 @@ public class Car {
     @JoinColumn(name = "ownerId")
     private Owner owner;
 
+    public Car(String brand, String model, String color, String registrationNumber, Integer modelYear, Double price, Owner owner) {
+        this.brand = brand;
+        this.model = model;
+        this.color = color;
+        this.registrationNumber = registrationNumber;
+        this.modelYear = modelYear;
+        this.price = price;
+        this.owner = owner;
+    }
 }

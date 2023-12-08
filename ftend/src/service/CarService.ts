@@ -1,4 +1,4 @@
-import { apiurl } from "../Api";
+import { Car, apiurl } from "../Api";
 import axios from "axios";
 
 export class CarService {
@@ -10,6 +10,16 @@ export class CarService {
 
   async delete(carId: number) {
     const response = await axios.delete(`${apiurl}/cars/${carId}`);
+
+    return response.status;
+  }
+
+  async newCar(car: Car) {
+    const response = await axios.post(`${apiurl}/cars`, car, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     return response.status;
   }

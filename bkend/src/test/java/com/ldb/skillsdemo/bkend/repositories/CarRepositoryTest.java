@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 // load spring context
@@ -40,15 +42,15 @@ class CarRepositoryTest {
 
     @Test
     public void willFindCarsByOwner() {
-        Owner owner = ownerRepository.save(new Owner());
+        Optional<Owner> owner = ownerRepository.findById(1005l);
         Car c1 = new Car();
-        c1.setOwner(owner);
+        c1.setOwner(owner.get());
 
         carRepository.save(c1);
 
-        var result = carRepository.findByOwner(owner);
+        var result = carRepository.findByOwner(owner.get());
 
-        assertThat(result.get(0).getOwner().getOwnerId()).isEqualTo(owner.getOwnerId());
+        assertThat(result.get(0).getOwner().getOwnerId()).isEqualTo(1005l);
     }
 
 }

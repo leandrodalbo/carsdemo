@@ -9,7 +9,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/cars")
-@CrossOrigin
 public class CarController {
 
     private final CarService carService;
@@ -33,5 +32,11 @@ public class CarController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addNewCar(@RequestBody CarDTO car) {
         carService.saveNewCar(car);
+    }
+
+    @PutMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void updateACar(@RequestBody CarDTO car) {
+        carService.updateACar(car);
     }
 }
