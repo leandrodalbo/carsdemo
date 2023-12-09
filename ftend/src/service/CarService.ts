@@ -23,6 +23,16 @@ export class CarService {
 
     return response.status;
   }
+
+  async updateCar(car: Car) {
+    const response = await axios.put(`${apiurl}/cars`, car, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.status;
+  }
 }
 
 const carService = new CarService();

@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CarService } from "../service/CarService";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import AddCar from "../addCar/AddCar";
+import EditCar from "../editCar/EditCar";
+import { Car } from "../Api";
 
 interface CarListProps {
   service: CarService;
@@ -37,6 +39,32 @@ const CarList = (props: CarListProps) => {
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
         <button onClick={() => mutate(params.row.carId)}>Delete</button>
+      ),
+    },
+
+    {
+      field: "edit",
+      headerName: "",
+      width: 90,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: (params: GridCellParams) => (
+        <EditCar
+          service={service}
+          queryClient={queryClient}
+          editiableCar={
+            {
+              carId: params.row.carId,
+              brand: params.row.brand,
+              model: params.row.model,
+              color: params.row.color,
+              registrationNumber: params.row.registrationNumber,
+              modelYear: params.row.modelYear,
+              price: params.row.price,
+            } as Car
+          }
+        />
       ),
     },
   ];

@@ -1,33 +1,26 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Car } from "../Api";
+import { CarService } from "../service/CarService";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { CarService } from "../service/CarService";
 import CarDialogContent from "../carDialogContent/CarDialogContent";
 
-interface AddCarProps {
+interface EditCarProps {
   service: CarService;
+  editiableCar: Car;
   queryClient: QueryClient;
 }
 
-const AddCar = (props: AddCarProps) => {
-  const { service, queryClient } = props;
-  const [dialogState, setDialogState] = useState(false);
+const EditCar = (props: EditCarProps) => {
+  const { editiableCar, service, queryClient } = props;
 
-  const [car, setCar] = useState<Car>({
-    brand: "",
-    model: "",
-    color: "",
-    registrationNumber: "",
-    modelYear: 0,
-    price: 0,
-  });
+  const [dialogState, setDialogState] = useState(false);
+  const [car, setCar] = useState<Car>(editiableCar);
 
   const openDialog = () => setDialogState(true);
   const closeDialog = () => setDialogState(false);
@@ -36,16 +29,8 @@ const AddCar = (props: AddCarProps) => {
     setCar({ ...car, [event.target.name]: event.target.value });
   };
 
-  const { mutate } = useMutation(service.newCar, {
+  const { mutate } = useMutation(service.updateCar, {
     onSuccess: () => {
-      setCar({
-        brand: "",
-        model: "",
-        color: "",
-        registrationNumber: "",
-        modelYear: 0,
-        price: 0,
-      });
       closeDialog();
       queryClient.invalidateQueries({ queryKey: ["allcars"] });
     },
@@ -53,23 +38,17 @@ const AddCar = (props: AddCarProps) => {
 
   return (
     <>
-      <button onClick={openDialog}>Add Car</button>
+      <button onClick={openDialog}>Edit</button>
       <Dialog open={dialogState} onClose={closeDialog}>
-        <DialogTitle>Create Car</DialogTitle>
+        <DialogTitle>Edit Car</DialogTitle>
         <CarDialogContent car={car} onCarChange={onCarChange} />
         <DialogActions>
           <button onClick={closeDialog}>Cancel</button>
-          <button
-            onClick={() => {
-              mutate(car);
-            }}
-          >
-            Save
-          </button>
+          <button onClick={() => mutate(car)}>Save</button>
         </DialogActions>
       </Dialog>
     </>
   );
 };
 
-export default AddCar;
+export default EditCar;

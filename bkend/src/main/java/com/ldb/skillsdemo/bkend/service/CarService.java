@@ -51,6 +51,7 @@ public class CarService {
         var existing = carRepository.findById(dto.carId().get()).get();
 
         var toSave = new Car(
+                existing.getCarId(),
                 dto.brand().orElse(existing.getBrand()),
                 dto.model().orElse(existing.getModel()),
                 dto.color().orElse(existing.getColor()),
