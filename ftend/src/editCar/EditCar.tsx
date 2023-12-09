@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Car } from "../Api";
 import { CarService } from "../service/CarService";
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -38,13 +39,13 @@ const EditCar = (props: EditCarProps) => {
 
   return (
     <>
-      <button onClick={openDialog}>Edit</button>
+      <Button onClick={openDialog}>Edit</Button>
       <Dialog open={dialogState} onClose={closeDialog}>
         <DialogTitle>Edit Car</DialogTitle>
         <CarDialogContent car={car} onCarChange={onCarChange} />
         <DialogActions>
-          <button onClick={closeDialog}>Cancel</button>
-          <button onClick={() => mutate(car)}>Save</button>
+          <Button onClick={closeDialog}>Cancel</Button>
+          <Button onClick={() => mutate(car)}>Save</Button>
         </DialogActions>
       </Dialog>
     </>

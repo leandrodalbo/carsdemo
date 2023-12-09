@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Car } from "../Api";
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -53,19 +54,19 @@ const AddCar = (props: AddCarProps) => {
 
   return (
     <>
-      <button onClick={openDialog}>Add Car</button>
+      <Button onClick={openDialog}>Add Car</Button>
       <Dialog open={dialogState} onClose={closeDialog}>
         <DialogTitle>Create Car</DialogTitle>
         <CarDialogContent car={car} onCarChange={onCarChange} />
         <DialogActions>
-          <button onClick={closeDialog}>Cancel</button>
-          <button
+          <Button onClick={closeDialog}>Cancel</Button>
+          <Button
             onClick={() => {
               mutate(car);
             }}
           >
             Save
-          </button>
+          </Button>
         </DialogActions>
       </Dialog>
     </>

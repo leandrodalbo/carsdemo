@@ -4,6 +4,7 @@ import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import AddCar from "../addCar/AddCar";
 import EditCar from "../editCar/EditCar";
 import { Car } from "../Api";
+import { Button } from "@mui/material";
 
 interface CarListProps {
   service: CarService;
@@ -38,7 +39,7 @@ const CarList = (props: CarListProps) => {
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <button onClick={() => mutate(params.row.carId)}>Delete</button>
+        <Button onClick={() => mutate(params.row.carId)}>Delete</Button>
       ),
     },
 

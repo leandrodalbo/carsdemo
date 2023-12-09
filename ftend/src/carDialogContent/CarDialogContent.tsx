@@ -1,4 +1,4 @@
-import { DialogContent } from "@mui/material";
+import { DialogContent, Stack, TextField } from "@mui/material";
 import { Car } from "../Api";
 
 interface CarDialogContentProps {
@@ -10,53 +10,49 @@ const CarDialogContent = (props: CarDialogContentProps) => {
   const { car, onCarChange } = props;
   return (
     <DialogContent>
-      <input
-        placeholder="Brand"
-        name="brand"
-        value={car.brand}
-        onChange={onCarChange}
-      />
-      <br />
+      <Stack spacing={1} mt={1}>
+        <TextField
+          label="Brand"
+          name="brand"
+          value={car.brand}
+          onChange={onCarChange}
+        />
 
-      <input
-        placeholder="Model"
-        name="model"
-        value={car.model}
-        onChange={onCarChange}
-      />
-      <br />
+        <TextField
+          label="Model"
+          name="model"
+          value={car.model}
+          onChange={onCarChange}
+        />
 
-      <input
-        placeholder="Color"
-        name="color"
-        value={car.color}
-        onChange={onCarChange}
-      />
-      <br />
+        <TextField
+          label="Color"
+          name="color"
+          value={car.color}
+          onChange={onCarChange}
+        />
 
-      <input
-        placeholder="Registration Number"
-        name="registrationNumber"
-        value={car.registrationNumber}
-        onChange={onCarChange}
-      />
-      <br />
+        <TextField
+          label="Registration Number"
+          name="registrationNumber"
+          value={car.registrationNumber}
+          onChange={onCarChange}
+        />
 
-      <input
-        placeholder="Model Year"
-        name="modelYear"
-        value={car.modelYear}
-        onChange={onCarChange}
-      />
-      <br />
+        <TextField
+          label="Model Year"
+          name="modelYear"
+          value={car.modelYear}
+          onChange={onCarChange}
+        />
 
-      <input
-        placeholder="Price"
-        name="price"
-        value={car.price}
-        onChange={onCarChange}
-      />
-      <br />
+        <TextField
+          label="Price"
+          name="price"
+          value={car.price}
+          onChange={onCarChange}
+        />
+      </Stack>
     </DialogContent>
   );
 };
